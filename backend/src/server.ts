@@ -22,7 +22,6 @@ class Server {
     
     // Initialize rate limiter
     this.rateLimiter = new RateLimiterMemory({
-      keyGenerator: (req: Request) => req.ip,
       points: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100'),
       duration: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000') / 1000, // Convert to seconds
     });
@@ -64,7 +63,8 @@ class Server {
     // Rate limiting middleware
     this.app.use(async (req: Request, res: Response, next: NextFunction) => {
       try {
-        await this.rateLimiter.consume(req.ip);
+        const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
+        await this.rateLimiter.consume(clientIp);
         next();
       } catch (rejRes: any) {
         const secs = Math.round(rejRes.msBeforeNext / 1000) || 1;
