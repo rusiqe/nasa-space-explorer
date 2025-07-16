@@ -2,8 +2,7 @@ import axios from 'axios';
 import { ApodResponse, MarsRoverResponse, NeoResponse, EpicResponse, RoverName } from '../types/nasa';
 
 class DirectNasaService {
-  private NASA_API_KEY = 'DEMO_KEY'; // Using demo key for now
-  private NASA_BASE_URL = 'https://api.nasa.gov';
+  private BASE_URL = '/api';
 
   async getApod(params?: {
     date?: string;
@@ -13,13 +12,9 @@ class DirectNasaService {
     thumbs?: boolean;
   }): Promise<ApodResponse | ApodResponse[]> {
     try {
-      const url = `${this.NASA_BASE_URL}/planetary/apod`;
-      const queryParams = {
-        api_key: this.NASA_API_KEY,
-        ...params
-      };
+      const url = `${this.BASE_URL}/apod`;
 
-      const response = await axios.get(url, { params: queryParams });
+      const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching APOD:', error);
