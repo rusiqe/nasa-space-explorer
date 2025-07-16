@@ -104,9 +104,8 @@ class ApiService {
     camera?: string;
     page?: number;
   }): Promise<MarsRoverResponse> {
-    const { rover, ...queryParams } = params;
     const response: AxiosResponse<ApiResponse<MarsRoverResponse>> = 
-      await this.client.get(`/api/nasa/mars-rovers/${rover}/photos`, { params: queryParams });
+      await this.client.get(`/api/mars-rovers`, { params });
     
     if (!response.data.success) {
       throw new Error(response.data.error?.message || 'Failed to fetch Mars rover photos');
@@ -138,7 +137,7 @@ class ApiService {
     detailed?: boolean;
   }): Promise<NeoResponse> {
     const response: AxiosResponse<ApiResponse<NeoResponse>> = 
-      await this.client.get('/api/nasa/neo', { params });
+      await this.client.get('/api/neo', { params });
     
     if (!response.data.success) {
       throw new Error(response.data.error?.message || 'Failed to fetch Near Earth Objects');
@@ -168,7 +167,7 @@ class ApiService {
     date?: string;
   }): Promise<EpicResponse> {
     const response: AxiosResponse<ApiResponse<EpicResponse>> = 
-      await this.client.get('/api/nasa/epic', { params });
+      await this.client.get('/api/epic', { params });
     
     if (!response.data.success) {
       throw new Error(response.data.error?.message || 'Failed to fetch EPIC Earth images');
