@@ -31,9 +31,8 @@ class DirectNasaService {
   }): Promise<MarsRoverResponse> {
     try {
       const { rover, ...queryParams } = params;
-      const url = `${this.NASA_BASE_URL}/mars-photos/api/v1/rovers/${rover}/photos`;
+      const url = `${this.BASE_URL}/mars-rovers?rover=${rover}`;
       const requestParams = {
-        api_key: this.NASA_API_KEY,
         ...queryParams
       };
 
@@ -47,7 +46,7 @@ class DirectNasaService {
 
   async getMarsRoverManifest(rover: RoverName): Promise<any> {
     try {
-      const url = `${this.NASA_BASE_URL}/mars-photos/api/v1/manifests/${rover}`;
+      const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
       const response = await axios.get(url, { 
         params: { api_key: this.NASA_API_KEY }
       });
