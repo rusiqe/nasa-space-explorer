@@ -46,10 +46,8 @@ class DirectNasaService {
 
   async getMarsRoverManifest(rover: RoverName): Promise<any> {
     try {
-      const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
-      const response = await axios.get(url, { 
-        params: { api_key: this.NASA_API_KEY }
-      });
+const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
+    const response = await axios.get(url);
       return response.data;
     } catch (error) {
       console.error('Error fetching Mars rover manifest:', error);
