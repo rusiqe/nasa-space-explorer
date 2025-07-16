@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { format, addDays, subDays } from 'date-fns';
-import apiService from '../services/apiService';
+import { format, subDays, addDays } from 'date-fns';
+// import apiService from '../services/apiService';
+import directNasaService from '../services/directNasaService';
 // import apiService from '../services/mockApiService';
 import { NeoResponse } from '../types/nasa';
 
@@ -60,7 +61,7 @@ const NearEarthObjectsViewer: React.FC<NearEarthObjectsViewerProps> = ({ classNa
         detailed: true
       };
 
-      const response = await apiService.getNearEarthObjects(params);
+      const response = await directNasaService.getNearEarthObjects(params);
       setNeoData(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch Near Earth Objects');

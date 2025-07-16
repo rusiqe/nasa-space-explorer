@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format, subDays, addDays } from 'date-fns';
-import apiService from '../services/apiService';
+// import apiService from '../services/apiService';
+import directNasaService from '../services/directNasaService';
 // import apiService from '../services/mockApiService';
 import { EpicResponse } from '../types/nasa';
 
@@ -81,7 +82,7 @@ const EarthImagesViewer: React.FC<EarthImagesViewerProps> = ({ className = '' })
     
     try {
       const params = date ? { date } : undefined;
-      const response = await apiService.getEpicImages(params);
+      const response = await directNasaService.getEpicImages(params);
       
       // Handle the response - it should be an array of images
       const imageArray = Array.isArray(response) ? response : [];

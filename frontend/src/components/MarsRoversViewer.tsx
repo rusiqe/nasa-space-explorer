@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import apiService from '../services/apiService';
+// import apiService from '../services/apiService';
+import directNasaService from '../services/directNasaService';
 // import apiService from '../services/mockApiService';
 import { MarsRoverResponse, RoverName } from '../types/nasa';
 
@@ -66,7 +67,7 @@ const MarsRoversViewer: React.FC<MarsRoversViewerProps> = ({ className = '' }) =
         params.camera = selectedCamera;
       }
 
-      const response = await apiService.getMarsRoverPhotos(params);
+      const response = await directNasaService.getMarsRoverPhotos(params);
       setPhotos(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch Mars rover photos');

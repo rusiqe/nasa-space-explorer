@@ -5,6 +5,7 @@
   "installCommand": "cd frontend && npm install",
   "outputDirectory": "frontend/build",
   "framework": "create-react-app",
+  "public": true,
   "rewrites": [
     {
       "source": "/health",
