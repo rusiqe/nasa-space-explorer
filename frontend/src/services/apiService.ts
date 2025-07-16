@@ -67,7 +67,7 @@ class ApiService {
   async healthCheck(): Promise<boolean> {
     try {
       const response = await this.client.get('/health');
-      return response.data.success;
+      return response.data.status === 'OK';
     } catch (error) {
       console.error('Health check failed:', error);
       return false;
@@ -84,14 +84,10 @@ class ApiService {
     count?: number;
     thumbs?: boolean;
   }): Promise<ApodResponse | ApodResponse[]> {
-    const response: AxiosResponse<ApiResponse<ApodResponse | ApodResponse[]>> = 
-      await this.client.get('/api/nasa/apod', { params });
+    const response: AxiosResponse<ApodResponse | ApodResponse[]> = 
+      await this.client.get('/api/apod', { params });
     
-    if (!response.data.success) {
-      throw new Error(response.data.error?.message || 'Failed to fetch APOD data');
-    }
-    
-    return response.data.data;
+    return response.data;
   }
 
   /**
