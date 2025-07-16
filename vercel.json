@@ -6,11 +6,6 @@
   "outputDirectory": "frontend/build",
   "framework": "create-react-app",
   "public": true,
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/health",
