@@ -2,7 +2,9 @@ import axios from 'axios';
 import { ApodResponse, MarsRoverResponse, NeoResponse, EpicResponse, RoverName } from '../types/nasa';
 
 class DirectNasaService {
-  private BASE_URL = '/api';
+  private BASE_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:3001/api/nasa' 
+    : '/api/nasa';
 
   async getApod(params?: {
     date?: string;
@@ -31,12 +33,8 @@ class DirectNasaService {
   }): Promise<MarsRoverResponse> {
     try {
       const { rover, ...queryParams } = params;
-      const url = `${this.BASE_URL}/mars-rovers?rover=${rover}`;
-      const requestParams = {
-        ...queryParams
-      };
-
-      const response = await axios.get(url, { params: requestParams });
+      const url = `${this.BASE_URL}/mars-rovers/${rover}/photos`;
+      const response = await axios.get(url, { params: queryParams });
       return response.data;
     } catch (error) {
       console.error('Error fetching Mars rover photos:', error);
@@ -46,8 +44,8 @@ class DirectNasaService {
 
   async getMarsRoverManifest(rover: RoverName): Promise<any> {
     try {
-const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
-    const response = await axios.get(url);
+      const url = `${this.BASE_URL}/mars-rovers/${rover}/manifest`;
+      const response = await axios.get(url);
       return response.data;
     } catch (error) {
       console.error('Error fetching Mars rover manifest:', error);
@@ -61,13 +59,8 @@ const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
     detailed?: boolean;
   }): Promise<NeoResponse> {
     try {
-      const url = `${this.NASA_BASE_URL}/neo/rest/v1/feed`;
-      const queryParams = {
-        api_key: this.NASA_API_KEY,
-        ...params
-      };
-
-      const response = await axios.get(url, { params: queryParams });
+      const url = `${this.BASE_URL}/neo`;
+      const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching Near Earth Objects:', error);
@@ -77,10 +70,8 @@ const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
 
   async getNearEarthObjectById(id: string): Promise<any> {
     try {
-      const url = `${this.NASA_BASE_URL}/neo/rest/v1/neo/${id}`;
-      const response = await axios.get(url, { 
-        params: { api_key: this.NASA_API_KEY }
-      });
+      const url = `${this.BASE_URL}/neo/${id}`;
+      const response = await axios.get(url);
       return response.data;
     } catch (error) {
       console.error('Error fetching Near Earth Object details:', error);
@@ -92,13 +83,8 @@ const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
     date?: string;
   }): Promise<EpicResponse> {
     try {
-      const url = `${this.NASA_BASE_URL}/EPIC/api/natural/images`;
-      const queryParams = {
-        api_key: this.NASA_API_KEY,
-        ...params
-      };
-
-      const response = await axios.get(url, { params: queryParams });
+      const url = `${this.BASE_URL}/epic`;
+      const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching EPIC Earth images:', error);
@@ -113,13 +99,8 @@ const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
     dim?: number;
   }): Promise<any> {
     try {
-      const url = `${this.NASA_BASE_URL}/planetary/earth/imagery`;
-      const queryParams = {
-        api_key: this.NASA_API_KEY,
-        ...params
-      };
-
-      const response = await axios.get(url, { params: queryParams });
+      const url = `${this.BASE_URL}/earth/imagery`;
+      const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching Earth imagery:', error);
@@ -132,8 +113,7 @@ const url = `${this.BASE_URL}/mars-rovers/manifest?rover=${rover}`;
     media_type?: string;
   }): Promise<any> {
     try {
-      // NASA Image Library uses a different endpoint
-      const url = `https://images-api.nasa.gov/search`;
+      const url = `${this.BASE_URL}/search`;
       const response = await axios.get(url, { params });
       return response.data;
     } catch (error) {
