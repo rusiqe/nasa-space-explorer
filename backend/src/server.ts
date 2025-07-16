@@ -60,26 +60,26 @@ class Server {
     this.app.use(express.json({ limit: '10mb' }));
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-    // Rate limiting middleware
-    this.app.use(async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
-        await this.rateLimiter.consume(clientIp);
-        next();
-      } catch (rejRes: any) {
-        const secs = Math.round(rejRes.msBeforeNext / 1000) || 1;
-        res.set('Retry-After', String(secs));
-        res.status(429).json({
-          success: false,
-          error: {
-            message: 'Too many requests, please try again later.',
-            code: 'RATE_LIMIT_EXCEEDED',
-            retryAfter: secs,
-          },
-          timestamp: new Date().toISOString(),
-        });
-      }
-    });
+    // Rate limiting middleware (temporarily disabled for debugging)
+    // this.app.use(async (req: Request, res: Response, next: NextFunction) => {
+    //   try {
+    //     const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
+    //     await this.rateLimiter.consume(clientIp);
+    //     next();
+    //   } catch (rejRes: any) {
+    //     const secs = Math.round(rejRes.msBeforeNext / 1000) || 1;
+    //     res.set('Retry-After', String(secs));
+    //     res.status(429).json({
+    //       success: false,
+    //       error: {
+    //         message: 'Too many requests, please try again later.',
+    //         code: 'RATE_LIMIT_EXCEEDED',
+    //         retryAfter: secs,
+    //       },
+    //       timestamp: new Date().toISOString(),
+    //     });
+    //   }
+    // });
 
     // Request logging middleware
     this.app.use((req: Request, res: Response, next: NextFunction) => {
