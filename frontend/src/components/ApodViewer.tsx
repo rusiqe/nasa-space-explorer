@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-// import apiService from '../services/apiService';
-import directNasaService from '../services/directNasaService';
+import apiService from '../services/api';
 import { ApodResponse } from '../types/nasa';
 
 interface ApodViewerProps {
@@ -21,7 +20,7 @@ const ApodViewer: React.FC<ApodViewerProps> = ({ className = '' }) => {
     
     try {
       const params = date ? { date } : undefined;
-      const response = await directNasaService.getApod(params);
+      const response = await apiService.getApod(params);
       
       // Handle both single APOD and array responses
       const data = Array.isArray(response) ? response[0] : response;
