@@ -5,19 +5,10 @@
   "installCommand": "cd frontend && npm install",
   "outputDirectory": "frontend/build",
   "framework": "create-react-app",
-  "functions": {
-    "backend/api/index.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/backend/api/index.js"
-    },
-    {
       "source": "/health",
-      "destination": "/backend/api/index.js"
+      "destination": "/api/health"
     }
   ]
 }

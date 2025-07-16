@@ -118,3 +118,4 @@ backend/coverage/
 
 # PDF files (original challenge document)
 *.pdf
+.vercel
