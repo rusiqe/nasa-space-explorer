@@ -215,4 +215,6 @@ class Server {
 const server = new Server();
 server.start();
 
+export const app = server.getApp();
+
 export default server;
