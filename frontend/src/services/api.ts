@@ -85,7 +85,7 @@ class ApiService {
     thumbs?: boolean;
   }): Promise<ApodResponse | ApodResponse[]> {
     const response: AxiosResponse<ApiResponse<ApodResponse | ApodResponse[]>> = 
-      await this.client.get('/api/nasa/apod', { params });
+      await this.client.get('/api/apod', { params });
     
     if (!response.data.success) {
       throw new Error(response.data.error?.message || 'Failed to fetch APOD data');
